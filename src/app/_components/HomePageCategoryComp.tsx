@@ -21,7 +21,7 @@ export const CategoryComponent = () => {
       {mockData.map((data, index) => {
         return (
           <button
-            className="w-[250px] flex h-[80px] bg-white items-center border-2 rounded-2xl p-4 hover:bg-[rgb(80,35,20)] hover:bg-opacity-[0.8] hover:cursor-pointer hover:text-white"
+            className="w-[250px] flex h-[80px] bg-white items-center border-2 rounded-2xl p-4 hover:bg-[rgb(80,35,20)] hover:bg-opacity-[0.8] hover:cursor-pointer hover:text-whitec"
             key={index}
           >
             <img src={data.categoryImg} className="w-1/3" />
