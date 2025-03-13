@@ -1,4 +1,7 @@
+
 import type { Metadata } from "next";
+import Header from "@/app/_components/BurgerKingHeader"
+
 import {
   ClerkProvider,
   SignInButton,
@@ -36,14 +39,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+          <header className="flex justify-between items-center bg-[rgb(245,235,220)]">
+            <Header/>
           </header>
           {children}
         </body>
