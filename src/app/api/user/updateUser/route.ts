@@ -12,7 +12,6 @@ export const PUT = async (req: Request) => {
         firstname: body.firstname,
         lastname: body.lastname,
         email: body.email,
-        isMale: body.isMale,
       },
     });
     return NextResponse.json(response);
