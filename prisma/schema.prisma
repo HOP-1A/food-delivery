@@ -19,6 +19,7 @@ model Users {
   lastname    String
   phoneNumber Int      @unique
   email       String
+  isMale      Boolean
   password    String
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
