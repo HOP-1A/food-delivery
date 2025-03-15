@@ -34,7 +34,7 @@ const Header = () => {
             </div>
           </div>
           <div className="border-l border-brown-700 h-3 mx-1.5"></div>
-          <button className="flex items-center gap-1 text-brown-700">
+          <button className="flex items-center gap-1 text-brown-700 cursor-pointer">
             <Pencil className="w-3.5 h-3.5" />
             <span className="font-medium leading-tight">Өөрчлөх</span>
           </button>
