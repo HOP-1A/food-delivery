@@ -1,6 +1,5 @@
-
 import type { Metadata } from "next";
-import Header from "@/app/_components/BurgerKingHeader"
+import Header from "@/app/_components/BurgerKingHeader";
 
 import {
   ClerkProvider,
@@ -12,6 +11,7 @@ import {
 } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "./_components/BurgerKingFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,9 +40,10 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <header className="flex justify-between items-center bg-[rgb(245,235,220)]">
-            <Header/>
+            <Header />
           </header>
           {children}
+          <Footer />
         </body>
       </html>
     </ClerkProvider>

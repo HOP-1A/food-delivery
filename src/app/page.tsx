@@ -1,3 +1,4 @@
+import Footer from "./_components/BurgerKingFooter";
 import { CategoryComponent } from "./_components/HomePageCategoryComp";
 
 const HomePage = () => {
