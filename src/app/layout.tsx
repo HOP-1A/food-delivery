@@ -1,6 +1,5 @@
-
 import type { Metadata } from "next";
-import Header from "@/app/_components/BurgerKingHeader"
+import Header from "@/app/_components/BurgerKingHeader";
 
 import {
   ClerkProvider,
@@ -40,7 +39,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <header className="flex justify-between items-center bg-[rgb(245,235,220)]">
-            <Header/>
+            <Header />
           </header>
           {children}
         </body>

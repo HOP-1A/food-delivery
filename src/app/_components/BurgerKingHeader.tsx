@@ -13,8 +13,6 @@ const Header = () => {
       <div className="flex gap-4 items-center">
         <Menu className="text-brown-700 w-6 h-6" />
         <button className="flex gap-2 bg-[#4D2C1D] text-white px-4 py-2 rounded-full items-center">
-          {/* <CircleUserRound className="w-5 h-5 text-white" />
-                    <span className="text-white font-medium">Нэвтрэх</span> */}
           <SignedOut>
             <SignInButton />
             <SignUpButton />
