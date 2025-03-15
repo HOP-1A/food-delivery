@@ -52,18 +52,19 @@ model Category {
 model Order {
   id           String      @id @default(uuid())
   orderItem    OrderItems? @relation(fields: [orderItemsId], references: [id])
-  updatedAt    DateTime    @updatedAt
-  createdAt    DateTime    @default(now())
   user         Users       @relation(fields: [usersId], references: [id])
+  currentState String
   usersId      String
   orderItemsId String
+  updatedAt    DateTime    @updatedAt
+  createdAt    DateTime    @default(now())
 }
 
 model OrderItems {
   id         String   @id @default(uuid())
   products   Products @relation(fields: [productsId], references: [id])
+  productsId String
+  order      Order[]
   updatedAt  DateTime @updatedAt
   createdAt  DateTime @default(now())
-  order      Order[]
-  productsId String
 }
