@@ -17,6 +17,7 @@ model Users {
   id          String   @id @default(uuid())
   firstname   String
   lastname    String
+  orderAddress String
   phoneNumber Int      @unique
   email       String
   password    String
@@ -53,6 +54,7 @@ model Order {
   id           String      @id @default(uuid())
   orderItem    OrderItems? @relation(fields: [orderItemsId], references: [id])
   user         Users       @relation(fields: [usersId], references: [id])
+  orderAddress String 
   currentState String
   usersId      String
   orderItemsId String

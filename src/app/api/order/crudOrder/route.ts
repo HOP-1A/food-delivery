@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const { usersId, orderItemsId, currentState } = body;
+    const { usersId, orderItemsId, currentState, orderAddress } = body;
     const response = prisma.order.create({
       data: {
         usersId,
+        orderAddress,
         orderItemsId,
         currentState,
       },
