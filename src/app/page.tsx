@@ -1,3 +1,4 @@
+import { CartContent } from "./_components/CartContent";
 import { CategoryComponent } from "./_components/HomePageCategoryComp";
 
 const HomePage = () => {
