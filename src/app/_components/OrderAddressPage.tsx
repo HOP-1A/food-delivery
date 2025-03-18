@@ -18,17 +18,62 @@ type PriceDataType = {
 };
 export default function OrderAddressPage() {
   const [officeORApartmentValue, setOfficeORApartmentValue] = useState("");
-  const [addressValue, setAddressValue] = useState<string>();
-  const [ortsValue, setOrtsValue] = useState<string>();
+  const [isOfficeValue, setIsOfficeValue] = useState<boolean>();
+  const [addressValue, setAddressValue] = useState<string>("");
+  const [ortsValue, setOrtsValue] = useState<string>("");
   const [floorValue, setFloorValue] = useState<string>();
   const [houseNumberValue, setHouseNumberValue] = useState<string>();
   const [additionalInfo, setAdditionalInfo] = useState<string>();
   const [additionalPhoneValue, setAdditionalPhoneValue] = useState<string>();
   const [phoneValue, setPhoneValue] = useState<string>();
   const [orderData, setOrderData] = useState<PriceDataType>();
+  const [addressArray, setAddressArray] = useState<Array<string>>();
   const onOfficeORApartmentClick = (value: SetStateAction<string>) => {
     setOfficeORApartmentValue(value);
+    if (value === "Оффис") {
+      setIsOfficeValue(true);
+    } else {
+      setIsOfficeValue(false);
+    }
   };
+  const ClickedDone = () => {
+    if (officeORApartmentValue === "Оффис") {
+      setAddressArray([
+        officeORApartmentValue +
+          " " +
+          addressValue +
+          " " +
+          floorValue +
+          " " +
+          houseNumberValue +
+          " " +
+          additionalInfo +
+          " " +
+          phoneValue +
+          " " +
+          additionalPhoneValue,
+      ]);
+    } else {
+      setAddressArray([
+        officeORApartmentValue +
+          " " +
+          ortsValue +
+          " " +
+          addressValue +
+          " " +
+          floorValue +
+          " " +
+          houseNumberValue +
+          " " +
+          additionalInfo +
+          " " +
+          phoneValue +
+          " " +
+          additionalPhoneValue,
+      ]);
+    }
+  };
+  console.log(addressArray);
   console.log(officeORApartmentValue);
   const HandleAddressValue = (e: { target: { value: string } }) => {
     setAddressValue(e.target.value);
@@ -62,6 +107,23 @@ export default function OrderAddressPage() {
     // const data = await JSONData.json();
     setOrderData(mockData);
   };
+  const postOrderData = async () => {
+    const mockData = {
+      totalPrice: "9000",
+      deliveryprice: "2000",
+      packetPrice: "3000",
+      productPrice: "4000",
+    };
+    const NewBody = {
+      orderAddress: addressArray,
+    };
+    const JSONData = await fetch(`www.MockWeb.com`, {
+      method: "POST",
+
+      body: JSON.stringify(NewBody),
+      headers: { "Content-Type": "application/json" },
+    });
+  };
   useEffect(() => {
     getPriceData();
   }, []);
@@ -75,7 +137,7 @@ export default function OrderAddressPage() {
           <span className="text-[13px] text-amber-950 font-extrabold">
             Хүргэлтийн хаяг
           </span>
-          <div className="flex items-center h-[30px] w-6/12  bg-white border-[1px] border-gray-500 rounded-sm gap-1">
+          <div className="flex items-center h-[30px] w-[700px]  bg-white border-[1px] border-gray-500 rounded-sm gap-1">
             <MapPinHouse className="h-[20px]" />
             <div className="border-[1px] border-amber-950 h-[20px] rounded-sm"></div>
             <div className="w-[650px] flex justify-between">
@@ -96,8 +158,8 @@ export default function OrderAddressPage() {
           <RadioGroup
             onValueChange={(value) => onOfficeORApartmentClick(value)}
           >
-            <div className="flex w-full gap-2 justify-between">
-              <div className="flex items-center h-[30px] w-6/12  bg-white border-[1px] border-gray-500 rounded-sm gap-1">
+            <div className="flex w-[700px] gap-2 justify-between">
+              <div className="flex items-center h-[30px] w-[345px]  bg-white border-[1px] border-gray-500 rounded-sm gap-1">
                 <Hotel className="h-[20px]" />
                 <div className="border-[1px] border-amber-950 h-[20px] rounded-sm"></div>
                 <div className="w-[305px] flex justify-between">
@@ -114,7 +176,7 @@ export default function OrderAddressPage() {
                   ></RadioGroupItem>
                 </div>
               </div>
-              <div className="flex items-center h-[30px] w-6/12 bg-white border-[1px] border-gray-500 rounded-sm gap-1">
+              <div className="flex items-center h-[30px] w-[345px] bg-white border-[1px] border-gray-500 rounded-sm gap-1">
                 <Building2 className="h-[20px]" />
                 <div className="border-[1px] border-amber-950 h-[20px] rounded-sm"></div>
                 <div className="w-[305px] flex justify-between">
@@ -135,51 +197,80 @@ export default function OrderAddressPage() {
           </RadioGroup>
         </div>
         <div className="flex items-center gap-2 h-[70px]">
+          {isOfficeValue ? (
+            <div className="flex w-[345px] gap-1.5 h-[70px]">
+              <div className="flex flex-col">
+                <span className="text-[13px] text-amber-950 font-extrabold">
+                  Давхар
+                </span>
+                <input
+                  className="w-[170px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
+                  placeholder="№..."
+                  onChange={HandleFloorValue}
+                  value={floorValue}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13px] text-amber-950 font-extrabold">
+                  Тоот
+                </span>
+                <input
+                  className="w-[170px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
+                  placeholder="№..."
+                  onChange={HandlehouseNumberValue}
+                  value={houseNumberValue}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flex w-[345px] gap-1.5 h-[70px]">
+              <div className="flex flex-col">
+                <span className="text-[13px] text-amber-950 font-extrabold">
+                  Орц
+                </span>
+                <input
+                  className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
+                  placeholder="№..."
+                  onChange={HandleOrtsValue}
+                  value={ortsValue}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13px] text-amber-950 font-extrabold">
+                  Давхар
+                </span>
+                <input
+                  className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
+                  placeholder="№..."
+                  onChange={HandleFloorValue}
+                  value={floorValue}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13px] text-amber-950 font-extrabold">
+                  Тоот
+                </span>
+                <input
+                  className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
+                  placeholder="№..."
+                  onChange={HandlehouseNumberValue}
+                  value={houseNumberValue}
+                />
+              </div>
+            </div>
+          )}
           <div className="flex w-[345px] gap-1.5 h-[70px]">
             <div className="flex flex-col">
               <span className="text-[13px] text-amber-950 font-extrabold">
-                Орц
+                Хаягийн нэмэлт тайлбар
               </span>
               <input
-                className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
-                placeholder="№..."
-                onChange={HandleOrtsValue}
-                value={ortsValue}
+                placeholder="Орцны код ... гэх мэт"
+                className="text-xs text-amber-950 font-medium placeholder:font-extrabold w-[345px] h-[30px] placeholder-amber-950 border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5"
+                value={additionalInfo}
+                onChange={HandleAdditionalInfoValue}
               />
             </div>
-            <div className="flex flex-col">
-              <span className="text-[13px] text-amber-950 font-extrabold">
-                Давхар
-              </span>
-              <input
-                className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
-                placeholder="№..."
-                onChange={HandleFloorValue}
-                value={floorValue}
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[13px] text-amber-950 font-extrabold">
-                Тоот
-              </span>
-              <input
-                className="w-[110px] h-[30px] border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5 text-xs outline-0 placeholder-amber-950  text-amber-950 font-medium placeholder:font-extrabold"
-                placeholder="№..."
-                onChange={HandlehouseNumberValue}
-                value={houseNumberValue}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[13px] text-amber-950 font-extrabold">
-              Хаягийн нэмэлт тайлбар
-            </span>
-            <input
-              placeholder="Орцны код ... гэх мэт"
-              className="text-xs text-amber-950 font-medium placeholder:font-extrabold w-[345px] h-[30px] placeholder-amber-950 border-[1px] border-gray-500 rounded-sm bg-white placeholder:text-sm p-1.5"
-              value={additionalInfo}
-              onChange={HandleAdditionalInfoValue}
-            />
           </div>
         </div>
         <div className="flex gap-2">
@@ -245,7 +336,10 @@ export default function OrderAddressPage() {
           <ChevronLeft />
           <span>Өмнөх алхам руу буцах</span>
         </button>
-        <button className="flex w-[270px] bg-red-600 rounded-sm h-[35px] text-white justify-center items-center">
+        <button
+          className="flex w-[270px] bg-red-600 rounded-sm h-[35px] text-white justify-center items-center"
+          onClick={ClickedDone}
+        >
           <span>Захиалга баталгаажуулах</span>
           <ChevronRight />
         </button>
