@@ -1,3 +1,7 @@
+"use client";
+
+import React from "react";
+
 type dataType = {
   id: string;
   imgUrl: string;
