@@ -14,31 +14,32 @@ datasource db {
 }
 
 model Users {
-  id          String   @id @default(uuid())
-  firstname   String
-  lastname    String
+  id           String   @id @default(uuid())
+  firstname    String
+  lastname     String
   orderAddress String
-  phoneNumber Int      @unique
-  email       String
-  password    String
-  updatedAt   DateTime @updatedAt
-  createdAt   DateTime @default(now())
-  orderId     String
-  Order       Order[]
+  phoneNumber  Int      @unique
+  email        String
+  password     String
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  orderId      String
+  Order        Order[]
 }
 
 model Products {
-  id          String       @id @default(uuid())
-  price       Int
-  name        String
-  description String
-  imgUrl      String
-  category    Category?    @relation(fields: [categoryId], references: [id])
-  updatedAt   DateTime     @updatedAt
-  createdAt   DateTime     @default(now())
-  usersId     String
-  categoryId  String
-  orderItem   OrderItems[]
+  id           String     @id @default(uuid())
+  price        Int
+  name         String
+  description  String
+  imgUrl       String
+  category     Category?  @relation(fields: [categoryId], references: [id])
+  updatedAt    DateTime   @updatedAt
+  createdAt    DateTime   @default(now())
+  usersId      String
+  categoryId   String
+  orderItems   OrderItems @relation(fields: [orderItemsId], references: [id])
+  orderItemsId String
 }
 
 model Category {
@@ -52,21 +53,21 @@ model Category {
 
 model Order {
   id           String      @id @default(uuid())
-  orderItem    OrderItems? @relation(fields: [orderItemsId], references: [id])
+  orderItems   OrderItems?
   user         Users       @relation(fields: [usersId], references: [id])
-  orderAddress String 
+  orderAddress String
   currentState String
   usersId      String
-  orderItemsId String
   updatedAt    DateTime    @updatedAt
   createdAt    DateTime    @default(now())
 }
 
 model OrderItems {
-  id         String   @id @default(uuid())
-  products   Products @relation(fields: [productsId], references: [id])
+  id         String     @id @default(uuid())
+  orderId    String     @unique
+  order      Order      @relation(fields: [orderId], references: [id])
   productsId String
-  order      Order[]
-  updatedAt  DateTime @updatedAt
-  createdAt  DateTime @default(now())
+  updatedAt  DateTime   @updatedAt
+  createdAt  DateTime   @default(now())
+  Products   Products[]
 }

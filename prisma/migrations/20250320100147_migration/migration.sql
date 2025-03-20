@@ -3,6 +3,7 @@ CREATE TABLE "Users" (
     "id" TEXT NOT NULL,
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
+    "orderAddress" TEXT NOT NULL,
     "phoneNumber" INTEGER NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -24,6 +25,7 @@ CREATE TABLE "Products" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "usersId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
+    "orderItemsId" TEXT NOT NULL,
 
     CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
 );
@@ -42,9 +44,11 @@ CREATE TABLE "Category" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
+    "orderAddress" TEXT NOT NULL,
+    "currentState" TEXT NOT NULL,
+    "usersId" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "orderItemsId" TEXT NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -52,9 +56,10 @@ CREATE TABLE "Order" (
 -- CreateTable
 CREATE TABLE "OrderItems" (
     "id" TEXT NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "productsId" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "productsId" TEXT NOT NULL,
 
     CONSTRAINT "OrderItems_pkey" PRIMARY KEY ("id")
 );
@@ -62,14 +67,17 @@ CREATE TABLE "OrderItems" (
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_phoneNumber_key" ON "Users"("phoneNumber");
 
--- AddForeignKey
-ALTER TABLE "Users" ADD CONSTRAINT "Users_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "OrderItems_orderId_key" ON "OrderItems"("orderId");
 
 -- AddForeignKey
 ALTER TABLE "Products" ADD CONSTRAINT "Products_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_orderItemsId_fkey" FOREIGN KEY ("orderItemsId") REFERENCES "OrderItems"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Products" ADD CONSTRAINT "Products_orderItemsId_fkey" FOREIGN KEY ("orderItemsId") REFERENCES "OrderItems"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrderItems" ADD CONSTRAINT "OrderItems_productsId_fkey" FOREIGN KEY ("productsId") REFERENCES "Products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItems" ADD CONSTRAINT "OrderItems_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
