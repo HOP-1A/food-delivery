@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 type dataType = {
   id: string;
@@ -10,118 +10,97 @@ type dataType = {
   price: number;
 };
 
-export const CartContent = ({ data }: { data: dataType }) => {
-  const [count, setCount] = useState(1);
-
+export const CartContent = () => {
+  let cartItems: { count: number; data: dataType }[] = [];
   useEffect(() => {
     const cartItemsString = localStorage.getItem("cart");
     if (cartItemsString) {
-      const cartItems: { count: number; data: dataType }[] =
-        JSON.parse(cartItemsString);
-      const existingItem = cartItems.find((item) => item.data.id === data.id);
-      if (existingItem) {
-        setCount(existingItem.count);
-      }
-    }
-  }, [data.id]);
-
-  const handleDelete = () => {
-    localStorage.removeItem("cart");
-  };
-
-  const updateCartInStorage = (newCount: number) => {
-    const cartItemsString = localStorage.getItem("cart");
-    let cartItems: { count: number; data: dataType }[] = [];
-
-    if (cartItemsString) {
       cartItems = JSON.parse(cartItemsString);
+      console.log(cartItems);
     }
+  }, []);
 
-    const existingItemIndex = cartItems.findIndex(
-      (item) => item.data.id === data.id
-    );
-
-    if (existingItemIndex !== -1) {
-      cartItems[existingItemIndex].count = newCount;
-    } else {
-      cartItems.push({ count: newCount, data });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cartItems));
+  const handleDelete = (id: string) => {
+    const newCart = cartItems.filter((item) => item.data.id !== id);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    window.location.reload();
   };
 
-  const plusCount = () => {
-    setCount((prev) => {
-      const newCount = prev + 1;
-      updateCartInStorage(newCount);
-      return newCount;
+  const updateCount = (id: string, amount: number) => {
+    cartItems = cartItems.map((item) => {
+      if (item.data.id === id) {
+        item.count = Math.max(1, item.count + amount);
+      }
+      return item;
     });
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    window.location.reload();
   };
 
-  const minusCount = () => {
-    if (count > 1) {
-      setCount((prev) => {
-        const newCount = prev - 1;
-        updateCartInStorage(newCount);
-        return newCount;
-      });
-    }
-  };
+  if (cartItems.length === 0) {
+    return <div className="text-xl text-gray-600">Сагс хоосон байна.</div>;
+  }
 
   return (
-    <div className="w-4/6 bg-white h-[350px] border-2 rounded-2xl p-4">
-      <div className="flex h-2/3">
-        <div className="p-4">
-          <img src={data.imgUrl} width={200} height={150} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="font-sans text-amber-950 text-3xl font-extrabold">
-            {data.name}
+    <div>
+      {cartItems.map((item) => (
+        <div
+          key={item.data.id}
+          className="w-full bg-white h-[350px] border-2 rounded-2xl p-4"
+        >
+          <div className="flex h-2/3">
+            <div className="p-4">
+              <img src={item.data.imgUrl} width={200} height={150} />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="font-sans text-amber-950 text-3xl font-extrabold">
+                {item.data.name}
+              </div>
+              <div className="text-xl text-amber-950">
+                {item.data.description}
+              </div>
+            </div>
           </div>
-          <div className="font-sans text-amber-950 text-lg font-bold">
-            Бүтээгдэхүүний мэдээлэл
+          <div className="flex justify-between mt-2 border-b-2 border-neutral-600 pb-3">
+            <div className="text-xl font-sans text-amber-950 font-bold">
+              Нийт дүн
+            </div>
+            <div className="text-xl font-sans text-amber-950 font-bold">
+              {item.data.price * item.count}₮
+            </div>
           </div>
-          <div className="text-xl text-amber-950">{data.description}</div>
-        </div>
-      </div>
-      <div className="flex justify-between mt-2 border-b-2 border-neutral-600 pb-3">
-        <div className="text-xl font-sans text-amber-950 font-bold">
-          Нийт дүн
-        </div>
-        <div className="text-xl font-sans text-amber-950 font-bold">
-          {data.price * count}₮
-        </div>
-      </div>
-      <div className="flex justify-between mb-4 mt-4">
-        <div className="flex gap-2 items-center">
-          <div className="border-r-2 border-black"></div>
-          <div className="flex gap-1 text-red-600 rounded-md p-1 justify-center items-center">
-            <X />
-            <button className="text-lg font-sans" onClick={handleDelete}>
-              Устгах
-            </button>
+          <div className="flex justify-between mb-4 mt-4">
+            <div className="flex gap-2 items-center">
+              <div
+                className="flex gap-1 text-red-600 rounded-md p-1 justify-center items-center hover:cursor-pointer"
+                onClick={() => handleDelete(item.data.id)}
+              >
+                <X />
+                <div className="text-lg font-sans">Устгах</div>
+              </div>
+            </div>
+            <div className="flex items-center">
+              {item.count > 1 && (
+                <button
+                  className="bg-amber-950 w-8 h-8 rounded-md text-white font-bold text-xl hover:cursor-pointer"
+                  onClick={() => updateCount(item.data.id, -1)}
+                >
+                  -
+                </button>
+              )}
+              <div className="w-8 h-8 text-center text-xl font-sans font-bold">
+                {item.count}
+              </div>
+              <button
+                className="bg-red-600 w-8 h-8 rounded-md text-white font-bold text-xl hover:cursor-pointer"
+                onClick={() => updateCount(item.data.id, 1)}
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
-        <div className="flex items-center">
-          {count > 1 && (
-            <button
-              className="bg-amber-950 w-8 h-8 rounded-md text-white text-center font-bold text-xl hover:cursor-pointer"
-              onClick={minusCount}
-            >
-              -
-            </button>
-          )}
-          <div className="w-8 h-8 text-center text-xl font-sans font-bold">
-            {count}
-          </div>
-          <button
-            className="bg-red-600 w-8 h-8 rounded-md text-white text-center font-bold text-xl hover:cursor-pointer"
-            onClick={plusCount}
-          >
-            +
-          </button>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
