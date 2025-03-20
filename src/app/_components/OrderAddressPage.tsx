@@ -10,11 +10,13 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { SetStateAction, useEffect, useState } from "react";
+import { PhoneNumber } from "@clerk/nextjs/server";
 type PriceDataType = {
   totalPrice: string;
   deliveryprice: string;
   packetPrice: string;
   productPrice: string;
+  phoneNumber: number;
 };
 export default function OrderAddressPage() {
   const [officeORApartmentValue, setOfficeORApartmentValue] = useState("");
@@ -102,12 +104,14 @@ export default function OrderAddressPage() {
       deliveryprice: "2000",
       packetPrice: "3000",
       productPrice: "4000",
+      phoneNumber: 95959595,
     };
     // const JSONData = await fetch(`www.MockWeb.com`);
     // const data = await JSONData.json();
     setOrderData(mockData);
   };
   const postOrderData = async () => {
+    const PhoneNumber = orderData?.phoneNumber;
     const mockData = {
       totalPrice: "9000",
       deliveryprice: "2000",
@@ -116,6 +120,7 @@ export default function OrderAddressPage() {
     };
     const NewBody = {
       orderAddress: addressArray,
+      phoneNumber: PhoneNumber,
     };
     const JSONData = await fetch(`www.MockWeb.com`, {
       method: "POST",
