@@ -12,6 +12,14 @@ export const PUT = async (req: Request) => {
         orderAddress: body.orderAddress,
       },
     });
+    const response1 = await prisma.order.update({
+      where: {
+        id: body.orderId,
+      },
+      data: {
+        orderAddress: body.orderAddress,
+      },
+    });
     return NextResponse.json(response);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });

@@ -17,6 +17,7 @@ type PriceDataType = {
   packetPrice: string;
   productPrice: string;
   phoneNumber: number;
+  orderId: string;
 };
 export default function OrderAddressPage() {
   const [officeORApartmentValue, setOfficeORApartmentValue] = useState("");
@@ -105,6 +106,7 @@ export default function OrderAddressPage() {
       packetPrice: "3000",
       productPrice: "4000",
       phoneNumber: 95959595,
+      orderId: "1223",
     };
     // const JSONData = await fetch(`www.MockWeb.com`);
     // const data = await JSONData.json();
@@ -112,6 +114,7 @@ export default function OrderAddressPage() {
   };
   const postOrderData = async () => {
     const PhoneNumber = orderData?.phoneNumber;
+    const OrderId = orderData?.orderId;
     const mockData = {
       totalPrice: "9000",
       deliveryprice: "2000",
@@ -121,6 +124,7 @@ export default function OrderAddressPage() {
     const NewBody = {
       orderAddress: addressArray,
       phoneNumber: PhoneNumber,
+      orderId: OrderId,
     };
     const JSONData = await fetch(`www.MockWeb.com`, {
       method: "POST",
