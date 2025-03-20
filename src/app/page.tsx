@@ -20,21 +20,19 @@ export type Products = {
 
 const HomePage = () => {
   const [categories, setCategories] = useState<Category>([]);
-  const [products, setProducts] = useState<Products[]>([]);
 
   const getCategories = async () => {
     const response = await fetch("/api/product/getAllCategory");
     const data = await response.json();
     setCategories(data);
   };
-  console.log(categories);
 
   useEffect(() => {
     getCategories();
   }, []);
 
   return (
-    <div className="bg-[rgb(245,235,220)] min-h-screen flex justify-center">
+    <div className="bg-[rgb(245,235,220)] min-h-screen flex justify-center w-full">
       <div className="flex flex-col items-center w-full max-w-[80%]">
         <div className="bg-[url(https://storage.googleapis.com/bk-delivery/images/UBv3FTXV6f0bB7Bggce44Dkj2BeOLEMX6xTtpzkm.jpg)] bg-contain h-[420px] bg-no-repeat mb-8 w-full">
           HeroSection
@@ -45,18 +43,20 @@ const HomePage = () => {
             <CategoryComponent categoryData={categories} />
           </div>
 
-          <div className="w-4/5 flex flex-wrap items-center gap-6">
+          <div className="w-4/5 flex items-center">
             {categories.map((category, index) => {
               return (
                 <div key={index}>
                   <div className="text-[21px] text-[#502314] font-extrabold mb-5 mt-1">
                     {category.categoryName}
                   </div>
-                  {category.products.map((product, index) => {
-                    return (
-                      <ProductItemComp key={index} productData={product} />
-                    );
-                  })}
+                  <div className="w-full flex gap-6">
+                    {category.products.map((product, index) => {
+                      return (
+                        <ProductItemComp key={index} productData={product} />
+                      );
+                    })}
+                  </div>
                 </div>
               );
             })}
