@@ -7,6 +7,7 @@ export type Category = {
   id: string;
   categoryName: string;
   categoryImg: string;
+  products: Products[];
 }[];
 export type Products = {
   id: string;
@@ -26,16 +27,10 @@ const HomePage = () => {
     const data = await response.json();
     setCategories(data);
   };
-
-  const getProducts = async () => {
-    const response = await fetch("/api/product/getAllProduct");
-    const data = await response.json();
-    setProducts(data);
-  };
+  console.log(categories);
 
   useEffect(() => {
     getCategories();
-    getProducts();
   }, []);
 
   return (
@@ -45,14 +40,25 @@ const HomePage = () => {
           HeroSection
         </div>
 
-        <div className="flex gap-6 w-5/6">
-          <div className="w-1/5">
+        <div className="flex gap-16 w-5/6">
+          <div>
             <CategoryComponent categoryData={categories} />
           </div>
 
-          <div className="w-4/5 flex flex-wrap items-center">
-            {products.map((product, index) => {
-              return <ProductItemComp key={index} productData={product} />;
+          <div className="w-4/5 flex flex-wrap items-center gap-6">
+            {categories.map((category, index) => {
+              return (
+                <div key={index}>
+                  <div className="text-[21px] text-[#502314] font-extrabold mb-5 mt-1">
+                    {category.categoryName}
+                  </div>
+                  {category.products.map((product, index) => {
+                    return (
+                      <ProductItemComp key={index} productData={product} />
+                    );
+                  })}
+                </div>
+              );
             })}
           </div>
         </div>
