@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -8,7 +9,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEffect, useState } from "react";
+type DataType = {
+  id: string;
+  orderItems: Object;
+  user: Object;
+  orderAddress: String;
+  currentState: String;
+  usersId: String;
+  updatedAt: Date;
+  createdAt: Date;
+};
+
 export default function AdminTable() {
+  const [fetchData, setFetchData] = useState<Array<DataType>>();
+  const dateOfBirth = new Date(1990, 4, 7);
+  console.log(dateOfBirth);
+  const FetchData = async () => {
+    const JSONdata = await fetch("", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await JSONdata.json();
+
+    console.log(data);
+    const mockData = [
+      {
+        usersId: "1",
+        id: "1",
+        user: { id: "1", firstname: "John", lastname: "Doe" },
+        orderAddress: "123 Elm Street, Apartment 5B, Springfield",
+        createdAt: 6,
+        updatedAt: 6,
+        currentState: "Delivered",
+        orderItems: { id: 1 },
+      },
+    ];
+    setFetchData(mockData);
+  };
+
   const mockData = [
     {
       id: 1,
@@ -101,6 +140,9 @@ export default function AdminTable() {
       ],
     },
   ];
+  useEffect(() => {
+    FetchData();
+  }, []);
   return (
     <div>
       <Table className="bg-white">
