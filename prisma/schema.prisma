@@ -45,9 +45,9 @@ model Category {
   id           String     @id @default(uuid())
   categoryName String
   categoryImg  String
+  products     Products[]
   updatedAt    DateTime   @updatedAt
   createdAt    DateTime   @default(now())
-  products     Products[]
 }
 
 model Order {
