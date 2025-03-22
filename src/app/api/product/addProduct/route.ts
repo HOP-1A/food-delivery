@@ -11,7 +11,6 @@ export const POST = async (req: Request) => {
         price,
         description,
         imgUrl,
-        usersId,
       },
     });
     return NextResponse.json(response);
