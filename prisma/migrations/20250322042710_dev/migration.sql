@@ -21,11 +21,10 @@ CREATE TABLE "Products" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "imgUrl" TEXT NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "usersId" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
     "orderItemsId" TEXT NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
 );
