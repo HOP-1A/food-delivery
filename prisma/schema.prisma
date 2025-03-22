@@ -28,18 +28,17 @@ model Users {
 }
 
 model Products {
-  id           String     @id @default(uuid())
+  id           String      @id @default(uuid())
   price        Int
   name         String
   description  String
   imgUrl       String
-  category     Category?  @relation(fields: [categoryId], references: [id])
-  updatedAt    DateTime   @updatedAt
-  createdAt    DateTime   @default(now())
-  usersId      String
   categoryId   String
-  orderItems   OrderItems? @relation(fields: [orderItemsId], references: [id])
   orderItemsId String
+  category     Category?   @relation(fields: [categoryId], references: [id])
+  orderItems   OrderItems? @relation(fields: [orderItemsId], references: [id])
+  updatedAt    DateTime    @updatedAt
+  createdAt    DateTime    @default(now())
 }
 
 model Category {
@@ -52,14 +51,14 @@ model Category {
 }
 
 model Order {
-  id           String      @id @default(uuid())
+  id           String       @id @default(uuid())
   orderItems   OrderItems[]
-  user         Users       @relation(fields: [usersId], references: [id])
+  user         Users        @relation(fields: [usersId], references: [id])
   orderAddress String
   currentState String
   usersId      String
-  updatedAt    DateTime    @updatedAt
-  createdAt    DateTime    @default(now())
+  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime     @default(now())
 }
 
 model OrderItems {
