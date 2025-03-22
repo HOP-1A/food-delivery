@@ -1,5 +1,6 @@
 import { Package } from "lucide-react";
 import { Search } from "lucide-react";
+import AdminTable from "./AdminTable";
 
 const Page = () => {
   const mockData = [
