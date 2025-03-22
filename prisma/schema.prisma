@@ -38,7 +38,7 @@ model Products {
   createdAt    DateTime   @default(now())
   usersId      String
   categoryId   String
-  orderItems   OrderItems @relation(fields: [orderItemsId], references: [id])
+  orderItems   OrderItems? @relation(fields: [orderItemsId], references: [id])
   orderItemsId String
 }
 
@@ -53,7 +53,7 @@ model Category {
 
 model Order {
   id           String      @id @default(uuid())
-  orderItems   OrderItems?
+  orderItems   OrderItems[]
   user         Users       @relation(fields: [usersId], references: [id])
   orderAddress String
   currentState String
