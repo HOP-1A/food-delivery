@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 type dataType = {
   id: string;
@@ -11,38 +11,46 @@ type dataType = {
 };
 
 export const CartContent = () => {
-  let cartItems: { count: number; data: dataType }[] = [];
+  const [cartItems, setCartItems] = useState<
+    { count: number; data: dataType }[]
+  >([]);
+
   useEffect(() => {
-    const cartItemsString = localStorage.getItem("cart");
-    if (cartItemsString) {
-      cartItems = JSON.parse(cartItemsString);
-      console.log(cartItems);
+    if (typeof window !== "undefined") {
+      const cartItemsString = localStorage.getItem("cart");
+      if (cartItemsString) {
+        setCartItems(JSON.parse(cartItemsString));
+      }
     }
   }, []);
 
   const handleDelete = (id: string) => {
     const newCart = cartItems.filter((item) => item.data.id !== id);
+    setCartItems(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
-    window.location.reload();
   };
 
   const updateCount = (id: string, amount: number) => {
-    cartItems = cartItems.map((item) => {
+    const updatedCart = cartItems.map((item) => {
       if (item.data.id === id) {
-        item.count = Math.max(1, item.count + amount);
+        return { ...item, count: Math.max(1, item.count + amount) };
       }
       return item;
     });
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-    window.location.reload();
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   if (cartItems.length === 0) {
-    return <div className="text-xl text-gray-600">Сагс хоосон байна.</div>;
+    return (
+      <div className="text-xl text-gray-600 flex justify-center">
+        Сагс хоосон байна.
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="w-full flex flex-col items-center gap-6">
       {cartItems.map((item) => (
         <div
           key={item.data.id}
