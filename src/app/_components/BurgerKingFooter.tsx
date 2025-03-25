@@ -1,59 +1,56 @@
-import { Facebook } from "lucide-react";
-import { Instagram } from "lucide-react";
-import { Youtube } from "lucide-react";
-import { Phone } from "lucide-react";
-import { Mail } from "lucide-react";
-import { MapPin } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Youtube,
+  Phone,
+  Mail,
+  MapPin,
+} from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="h-[325px] w-screen bg-[rgb(80,35,20)] flex px-[350px] py-[60px] static bottom-0">
-      <div className="flex gap-[250px]">
-        <div className="flex flex-col ">
-          <div className="uppercase text-[rgb(255,170,0)] font-[1000] text-[55px] ">
+    <div className="bg-[rgb(80,35,20)] text-white py-10">
+      <div className="container mx-auto max-w-screen-xl flex flex-wrap justify-between px-6 lg:px-16">
+        <div className="flex flex-col max-w-sm">
+          <h1 className="uppercase text-[rgb(255,170,0)] font-extrabold text-4xl lg:text-5xl">
             Burger King
-          </div>
-          <div className="text-white  mb-5">
-            Ил гал дээр шарсан хамгийн амттай бургерийг<br></br>зөвхөн Бургер
-            Кингээс
-          </div>
-          <div className="flex gap-2 text-white">
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center">
-              <Facebook className="w-5 h-5" />
-            </div>{" "}
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center">
-              <Instagram className="w-5 h-5" />
-            </div>{" "}
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center">
-              <Youtube className="w-5 h-5" />
-            </div>
+          </h1>
+          <p className="mt-2 mb-4">
+            Ил гал дээр шарсан хамгийн амттай бургерийг
+            <br /> зөвхөн Бургер Кингээс
+          </p>
+          <div className="flex gap-3">
+            {[Facebook, Instagram, Youtube].map((Icon, index) => (
+              <div
+                key={index}
+                className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center"
+              >
+                <Icon className="w-5 h-5" />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="text-white flex flex-col gap-5 mt-5">
-          <div className="flex items-center gap-2">
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center ">
-              <Phone className="w-5 h-5" />
+
+        <div className="flex flex-col gap-4">
+          {[
+            { Icon: Phone, text: "7777-3030" },
+            { Icon: Mail, text: "marketing@burgerking.mn" },
+            {
+              Icon: MapPin,
+              text: "Bayangol District, 4-r khoroolol, Ard Ayush Avenue, Ulaanbaatar, Mongolia, 16062",
+            },
+          ].map(({ Icon, text }, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center">
+                <Icon className="w-5 h-5" />
+              </div>
+              <span>{text}</span>
             </div>
-            <div>7777-3030</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center ">
-              <Mail className="w-5 h-5" />
-            </div>
-            <div>marketing@burgerking.mn</div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-[rgb(255,170,0)] rounded-full w-9 h-9 flex justify-center items-center ">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <div>
-              Bayangol District, 4-r khoroolol, Ard Ayush Avenue, Ulaanbaatar,
-              Mongolia, 16062
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
+
 export default Footer;
