@@ -1,31 +1,63 @@
+"use client";
+import { ArrowLeft, ArrowRight, CirclePlus, Trash2 } from "lucide-react";
 import { CartContent } from "../_components/CartContent";
+import { useEffect } from "react";
+import Link from "next/link";
 
 const Page = () => {
-  const mockData = [
-    {
-      id: "1",
-      name: "Long Cheese Burger",
-      description:
-        "Package with 8 pieces of chicken nuggets, fries, ice tea drink and children's toys",
-      price: 16900,
-      imgUrl:
-        "https://objectstorage.ap-sydney-1.oraclecloud.com/n/oraclegbuprod/b/IC_FBGBU_SS_38034_bt-sim-231023071222-MAX-8b5003ca-618d-46e1-b8b3-610d2d37a600/o/MAX231220034627503.png",
-    },
-    {
-      id: "2",
-      name: "Fried potato /Large/",
-      description: "Шарсан төмс L",
-      price: 4500,
-      imgUrl:
-        "https://objectstorage.ap-sydney-1.oraclecloud.com/n/oraclegbuprod/b/IC_FBGBU_SS_38034_bt-sim-231023071222-MAX-8b5003ca-618d-46e1-b8b3-610d2d37a600/o/MAX240530012413914.PNG",
-    },
-  ];
+  useEffect(() => {
+    const cartItemsString = localStorage.getItem("cart");
+    if (!cartItemsString) {
+      localStorage.setItem("cart", JSON.stringify([]));
+    }
+  }, []);
+
+  const clearCart = () => {
+    localStorage.removeItem("cart");
+    window.location.reload();
+  };
+
   return (
-    <div className="bg-[rgb(245,235,220)] bg-opacity-[var(--tw-bg-opacity)] min-h-screen">
-      <div className="w-screen flex flex-col items-center gap-6">
-        {mockData.map((data) => {
-          return <CartContent data={data} key={data.id} />;
-        })}
+    <div className="bg-[rgb(245,235,220)] min-h-screen flex flex-col items-center">
+      <div className="w-4/6">
+        <div className="flex justify-between pb-4">
+          <div className="font-bold text-3xl">Миний сагс</div>
+          <div className="flex gap-4">
+            <Link
+              className="flex bg-green-700 rounded-md text-white p-2 gap-2 font-bold hover:cursor-pointer"
+              href={"/"}
+            >
+              <CirclePlus />
+              <div>Бүтээгдэхүүн нэмэх</div>
+            </Link>
+            <div
+              className="flex bg-amber-950 rounded-md text-white p-2 gap-2 font-bold hover:cursor-pointer"
+              onClick={clearCart}
+            >
+              <Trash2 />
+              <div>Сагс хоослох</div>
+            </div>
+          </div>
+        </div>
+
+        <CartContent />
+
+        <div className="flex justify-between mt-8 mb-8">
+          <Link
+            className="flex bg-amber-950 rounded-md text-white p-2 gap-2 hover:cursor-pointer"
+            href={"/"}
+          >
+            <ArrowLeft />
+            <div>Өмнөх алхам руу буцах</div>
+          </Link>
+          <Link
+            className="flex bg-red-600 rounded-md text-white p-2 gap-2 hover:cursor-pointer"
+            href={"/order"}
+          >
+            <div>Үргэлжүүлэх</div>
+            <ArrowRight />
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const HomePage = () => {
           </div>
 
           <div className="w-4/5 flex items-center">
-            {categories.map((category, index) => {
+            {categories?.map((category, index) => {
               return (
                 <div key={index}>
                   <div className="text-[21px] text-[#502314] font-extrabold mb-5 mt-1">
