@@ -1,7 +1,7 @@
 "use client";
 import { ArrowLeft, ArrowRight, CirclePlus, Trash2 } from "lucide-react";
 import { CartContent } from "../_components/CartContent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Page = () => {

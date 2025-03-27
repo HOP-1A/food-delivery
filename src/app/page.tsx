@@ -45,7 +45,6 @@ const HomePage = () => {
             <div>
               <CategoryComponent categoryData={categories} />
             </div>
-
             <div className="w-4/5 flex flex-col">
               {categories.map((category, index) => (
                 <div key={index}>
