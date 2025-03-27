@@ -12,7 +12,6 @@ type dataType = {
 };
 
 export const CartContent = () => {
-  const router = useRouter();
   const [cartItems, setCartItems] = useState<
     { count: number; data: dataType }[]
   >([]);
