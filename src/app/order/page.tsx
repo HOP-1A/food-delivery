@@ -76,8 +76,6 @@ export default function OrderAddressPage() {
       ]);
     }
   };
-  console.log(addressArray);
-  console.log(officeORApartmentValue);
   const HandleAddressValue = (e: { target: { value: string } }) => {
     setAddressValue(e.target.value);
   };
