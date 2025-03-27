@@ -133,19 +133,7 @@ const Page = () => {
         </div>
       </div>
       <div className="border-1 border-grey h-[850px] w-[1310px] rounded-[8px] p-5 flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
-          <div className="text-2xl font-bold">Delivery List</div>
-          <div className=" text-gray-500 font-[600]">
-            Manage and track all scheduled deliveries
-          </div>
-        </div>
-        <div>
-          <div className="border-1 border-grey rounded-[7px] flex w-[500px] h-[35px] items-center gap-2 pl-2">
-            <Search />
-            <input placeholder="Search deliveries..." className="border-none" />
-          </div>
-        </div>
-        <div className="border-1 border-grey h-[100%] w-[100%] rounded-[8px] "></div>
+        <AdminTable />
       </div>
     </div>
   );
