@@ -14,8 +14,8 @@ type DataType = {
   id: string;
   orderItems: Array<object>;
   user: UserType;
-  orderAddress: String;
-  currentState: String;
+  orderAddress: string;
+  currentState: string;
   usersId: String;
   updatedAt: String;
   createdAt: String;
@@ -28,6 +28,36 @@ type UserType = {
 
 export default function AdminTable() {
   const [Data, setData] = useState<Array<DataType>>();
+  const StatusValues = ["Delivered", "Pending", "In Transit", "Cancelled"];
+  const updateDeliveryStatus = async (
+    id: string,
+    status: string,
+    orderItems: Array<object>
+  ) => {
+    try {
+      const response = await fetch("../api/order/crudOrder", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+          currentState: status,
+          orderItems: orderItems,
+        }),
+      });
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error updating delivery status:", error);
+    }
+  };
+  const ChangeStatus = (
+    status: string,
+    id: string,
+    orderItems: Array<object>
+  ) => {
+    updateDeliveryStatus(id, status, orderItems);
+  };
   const FetchData = async () => {
     const JSONdata = await fetch("api/order/crudOrder", {
       method: "GET",
@@ -52,7 +82,7 @@ export default function AdminTable() {
         orderAddress: "123 Elm Street, Apartment 5B, Springfield",
         createdAt: "2025-03-18T12:30:00",
         updatedAt: "2025-03-18T12:30:00",
-        currentState: "Delivered",
+        currentState: "Pending",
         orderItems: [{ id: 1 }],
       },
       {
@@ -103,7 +133,18 @@ export default function AdminTable() {
               <TableCell className="font-medium">
                 {data.user.firstname} {data.user.lastname}
               </TableCell>
-              <TableCell>{data.currentState}</TableCell>
+              <TableCell>
+                <select
+                  defaultValue={data.currentState}
+                  onChange={(e: { target: { value: string } }) =>
+                    ChangeStatus(e.target.value, data.id, data.orderItems)
+                  }
+                >
+                  {StatusValues.map((value, index) => (
+                    <option key={index}>{value}</option>
+                  ))}
+                </select>
+              </TableCell>
               <TableCell>{data.orderAddress}</TableCell>
               <TableCell>{data.orderItems.length}</TableCell>
               <TableCell>{data.createdAt}</TableCell>

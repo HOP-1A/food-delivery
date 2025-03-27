@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const { usersId, orderItemsId, currentState, orderAddress } = body;
+    const { usersId, orderItems, currentState, orderAddress } = body;
     const response = prisma.order.create({
       data: {
         usersId,
         orderAddress,
-        orderItemsId,
+        orderItems,
         currentState,
       },
     });
@@ -37,13 +37,13 @@ export const GET = async () => {
 export const PUT = async (req: Request) => {
   try {
     const body = await req.json();
-    const { id, orderItemsId, currentState } = body;
+    const { id, orderItems, currentState } = body;
     const response = prisma.order.update({
       where: {
         id,
       },
       data: {
-        orderItemsId,
+        orderItems,
         currentState,
       },
     });
