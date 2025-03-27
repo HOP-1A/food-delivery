@@ -1,4 +1,10 @@
+"use client";
+
 import { Menu, Pencil, ShoppingBag, Truck } from "lucide-react";
+
+import HomePageItemComp from "./HomePageItemComp";
+import { useRouter } from "next/navigation";
+
 import {
   SignInButton,
   SignUpButton,
@@ -8,6 +14,10 @@ import {
 } from "@clerk/nextjs";
 
 const Header = () => {
+  const router = useRouter();
+  const HomePageItem = () => {
+    HomePageItemComp;
+  };
   return (
     <div className="w-screen flex justify-between items-center px-4 bg-[rgb(245,235,220)] mb-15 drop-shadow-lg">
       <div className="flex gap-4 items-center">
@@ -34,15 +44,21 @@ const Header = () => {
             </div>
           </div>
           <div className="border-l border-brown-700 h-3 mx-1.5"></div>
-          <button className="flex items-center gap-1 text-brown-700">
+          <button className="flex items-center gap-1 text-brown-700 cursor-pointer">
             <Pencil className="w-3.5 h-3.5" />
             <span className="font-medium leading-tight">Өөрчлөх</span>
           </button>
         </div>
       </div>
-
+      <div className="w-20 h-20">
+        <img src="https://www.burgerking.mn/assets/images/header-logo.png" />
+      </div>
       <div className="flex gap-4 items-center mt-2">
-        <button className="flex items-center gap-3 bg-[#CC3D1D] text-white px-4 py-1 rounded-full text-base">
+        <button
+          onChange={HomePageItem}
+          onClick={() => router.push("/cart")}
+          className="flex items-center gap-3 bg-red-700 text-white px-4 py-1 rounded-full text-base cursor-pointer"
+        >
           <ShoppingBag className="w-7 h-7 text-white" />
           <span className="font-medium">Сагс</span>
         </button>
