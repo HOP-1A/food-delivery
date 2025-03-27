@@ -18,7 +18,6 @@ export const CartContent = () => {
   >([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  // 🛒 LocalStorage-с өгөгдөл унших
   useEffect(() => {
     if (typeof window !== "undefined") {
       const cartItemsString = localStorage.getItem("cart");
@@ -29,23 +28,20 @@ export const CartContent = () => {
     }
   }, []);
 
-  // 💰 Нийт дүнг cartItems-ийн өөрчлөлт дээр тулгуурлан шинэчлэх
   useEffect(() => {
     const total = cartItems.reduce(
       (sum, item) => sum + item.count * item.data.price,
       0
     );
     setTotalPrice(total);
-  }, [cartItems]); // 🛍️ cartItems өөрчлөгдөх бүрт нийт үнийг шинэчилнэ.
+  }, [cartItems]);
 
-  // 🗑️ Бүтээгдэхүүн устгах
   const handleDelete = (id: string) => {
     const newCart = cartItems.filter((item) => item.data.id !== id);
     setCartItems(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
-  // 🔢 Тоо хэмжээг нэмэх / хасах
   const updateCount = (id: string, amount: number) => {
     const updatedCart = cartItems.map((item) => {
       if (item.data.id === id) {
