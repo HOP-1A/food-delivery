@@ -16,15 +16,25 @@ export const CartContent = () => {
   const [cartItems, setCartItems] = useState<
     { count: number; data: dataType }[]
   >([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const cartItemsString = localStorage.getItem("cart");
       if (cartItemsString) {
-        setCartItems(JSON.parse(cartItemsString));
+        const parsedCart = JSON.parse(cartItemsString);
+        setCartItems(parsedCart);
       }
     }
   }, []);
+
+  useEffect(() => {
+    const total = cartItems.reduce(
+      (sum, item) => sum + item.count * item.data.price,
+      0
+    );
+    setTotalPrice(total);
+  }, [cartItems]);
 
   const handleDelete = (id: string) => {
     const newCart = cartItems.filter((item) => item.data.id !== id);
@@ -111,6 +121,12 @@ export const CartContent = () => {
           </div>
         </div>
       ))}
+      <div className="flex w-full justify-between mt-6 border-t-2 border-black pt-4">
+        <div className="font-bold text-xl text-amber-950 ">Нийт дүн</div>
+        <div className="text-lg font-sans text-amber-950 font-bold">
+          {totalPrice}₮
+        </div>
+      </div>
     </div>
   );
 };
