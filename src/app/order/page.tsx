@@ -308,14 +308,14 @@ export default function OrderAddressPage() {
             <span className="text-[15px] text-amber-950 font-md">
               Савлагаа, тор
             </span>
-            <span>2000 ₮</span>
+            <span>500 ₮</span>
           </div>
           <div className=" border-[1px] border-amber-950"></div>
           <div className=" flex justify-between">
             <span className="text-[17px] text-amber-950 font-extrabold">
               Нийт дүн
             </span>
-            <span className="font-extrabold">{totalPrice + 5000}₮</span>
+            <span className="font-extrabold">{totalPrice + 3500}₮</span>
           </div>
         </div>
         <div className=" flex justify-between mt-[50px]">
