@@ -31,7 +31,11 @@ export const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(Number);
-  const [categoris, setCategories] = useState<categoryType[]>([]);
+  const [categories, setCategories] = useState<categoryType[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
+  const [isAdded, setIsAdded] = useState<boolean>(false);
 
   const uploadImages = async () => {
     if (!images) return;
@@ -86,8 +90,14 @@ export const AddProduct = () => {
         description,
         price,
         imgUrl: uploadedImages[0],
+        categoryId: selectedCategoryId,
       }),
     });
+    if (!response) {
+      setIsAdded(false);
+    } else {
+      setIsAdded(true);
+    }
   };
 
   return (
@@ -123,18 +133,17 @@ export const AddProduct = () => {
 
           <div className="text-center w-90%">
             {uploadedImages.map((img, index) => (
-              <div className=" flex flex-col items-center gap-4" key={index}>
+              <div className="flex flex-col items-center gap-4" key={index}>
                 <img
                   src={img}
                   className="aspect-auto rounded-lg shadow-lg w-[300px]"
-                  alt="Description"
+                  alt="Uploaded"
                   width={50}
                   height={50}
                 />
               </div>
             ))}
           </div>
-
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Name
@@ -142,47 +151,39 @@ export const AddProduct = () => {
             <Input
               placeholder="Name"
               className="col-span-3"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="Description" className="text-right">
+            <Label htmlFor="description" className="text-right">
               Description
             </Label>
             <Input
-              placeholder="Descripton"
+              placeholder="Description"
               className="col-span-3"
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="Price" className="text-right">
+            <Label htmlFor="price" className="text-right">
               Price
             </Label>
             <Input
               placeholder="Price"
               className="col-span-3"
-              onChange={(e) => {
-                setPrice(Number(e.target.value));
-              }}
+              onChange={(e) => setPrice(Number(e.target.value))}
             />
           </div>
-          <Select>
+          <Select onValueChange={(e) => setSelectedCategoryId(e)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-              {categoris.map((category) => {
-                return (
-                  <SelectItem value={category.categoryName}>
-                    {category.categoryName}
-                  </SelectItem>
-                );
-              })}
+              {categories.map((category, i) => (
+                <SelectItem key={i} value={category.id}>
+                  {category.categoryName}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
