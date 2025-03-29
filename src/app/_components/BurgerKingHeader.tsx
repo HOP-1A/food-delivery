@@ -12,16 +12,29 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const router = useRouter();
+  const [cartLength, setCartLength] = useState(0);
+
+  const totalProductCountFromCart = () => {
+    const stringCart = localStorage.getItem("cart");
+    const cart = stringCart ? JSON.parse(stringCart) : [];
+
+    setCartLength(cart.length);
+  };
+
+  useEffect(() => {
+    totalProductCountFromCart();
+  }, []);
+
   const HomePageItem = () => {
     HomePageItemComp;
   };
   return (
     <div className="w-screen flex justify-between items-center px-4 bg-[rgb(245,235,220)] mb-15 drop-shadow-lg">
       <div className="flex gap-4 items-center">
-        <Menu className="text-brown-700 w-6 h-6" />
         <div className="flex gap-2 bg-[#4D2C1D] text-white px-4 py-2 rounded-full items-center">
           <SignedOut>
             <SignInButton />
@@ -50,7 +63,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <div className="w-20 h-20">
+      <div className="w-20 h-20 flex justify-center items-center">
         <img src="https://www.burgerking.mn/assets/images/header-logo.png" />
       </div>
       <div className="flex gap-4 items-center mt-2">
@@ -61,6 +74,7 @@ const Header = () => {
         >
           <ShoppingBag className="w-7 h-7 text-white" />
           <span className="font-medium">Сагс</span>
+          <span>{cartLength}</span>
         </button>
       </div>
     </div>

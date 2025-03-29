@@ -23,16 +23,18 @@ export default function OrderPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get("productId");
   const FetchData = async () => {
-    // const JSONData = await fetch(`www.HEREWILLBEADDRESS.com/${id}`);
-    // const data = await JSONData.json();
-    // setProductData(data);
     setProductData(MockData);
     console.log(productData);
     console.log("working");
+    const response = await fetch("api/product/getOnlyOneProduct", {
+      method: "POST",
+      body: JSON.stringify({ id: id }),
+    });
   };
   const IncreaseCount = () => {
     setProductCount((prev) => prev + 1);
   };
+
   const DecreaseCount = () => {
     if (productCount > 1) {
       setProductCount((prev) => prev - 1);
