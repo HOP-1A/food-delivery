@@ -74,7 +74,9 @@ const Header = () => {
         >
           <ShoppingBag className="w-7 h-7 text-white" />
           <span className="font-medium">Сагс</span>
-          <span>{cartLength}</span>
+          <span className="h-[25px] w-[25px] bg-[#592202] flex justify-center items-center rounded-2xl ">
+            {cartLength}
+          </span>
         </button>
       </div>
     </div>
