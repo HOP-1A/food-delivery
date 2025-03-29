@@ -131,11 +131,11 @@ export default function OrderAddressPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: "48d5db27-bd87-42b5-88ba-d91fea3bee97",
+        userId: "0ee1c2ff-5b31-4d82-8d3e-bb08b53db077",
         totalPrice: 12,
         orderAddress: "testAddress",
         orderItems: [
-          { productId: "6eb2c893-dd9f-42df-ac52-a490abda6ce0", quantity: 1 },
+          { productId: "526a3d75-5960-4059-8b45-092f27e389a2", quantity: 1 },
         ],
       }),
     });
