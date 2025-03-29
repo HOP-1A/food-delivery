@@ -1,73 +1,45 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { nanoid } from "nanoid";
 
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const { usersId, orderItems, currentState, orderAddress } = body;
-    const response = prisma.order.create({
+    const { userId, orderItems, orderAddress, totalPrice } = body;
+
+    const orderId = nanoid();
+
+    const order = await prisma.order.create({
       data: {
-        usersId,
+        id: orderId,
+        userId,
         orderAddress,
-        orderItems,
-        currentState,
+        totalPrice: 10,
+        currentState: "PENDING",
+        updatedAt: new Date(),
+        createdAt: new Date(),
       },
     });
-    return NextResponse.json(response);
+
+    await Promise.all(
+      orderItems.map(
+        async (orderItem: { productId: string; quantity: number }) =>
+          prisma.orderItems.create({
+            data: {
+              id: nanoid(),
+              orderId: order.id,
+              productId: orderItem.productId,
+              quantity: orderItem.quantity,
+            },
+          })
+      )
+    );
+
+    return NextResponse.json(order);
   } catch (error) {
+    console.error({ error });
     return NextResponse.json(
       { message: `Failed to create Order => ${error}` },
-      { status: 500 }
-    );
-  }
-};
-
-export const GET = async () => {
-  try {
-    const orders = await prisma.order.findMany();
-    return NextResponse.json(orders);
-  } catch (error) {
-    return NextResponse.json(
-      { message: `Failed to fetch => ${error}` },
-      { status: 500 }
-    );
-  }
-};
-
-export const PUT = async (req: Request) => {
-  try {
-    const body = await req.json();
-    const { id, orderItems, currentState } = body;
-    const response = prisma.order.update({
-      where: {
-        id,
-      },
-      data: {
-        orderItems,
-        currentState,
-      },
-    });
-    return NextResponse.json(response);
-  } catch (error) {
-    return NextResponse.json(
-      { message: `Failed to update Order => ${error}` },
-      { status: 500 }
-    );
-  }
-};
-
-export const DELETE = async (req: Request) => {
-  try {
-    const body = await req.json();
-    const response = prisma.order.delete({
-      where: {
-        id: body.id,
-      },
-    });
-    return NextResponse.json(response);
-  } catch (error) {
-    return NextResponse.json(
-      { message: `Failed to delete Order => ${error}` },
       { status: 500 }
     );
   }

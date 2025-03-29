@@ -9,7 +9,18 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { SetStateAction, useEffect, useState } from "react";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 type ProductType = {
   price: number;
 };
@@ -20,17 +31,20 @@ type DataType = {
 }[];
 
 export default function OrderAddressPage() {
-  const [officeORApartmentValue, setOfficeORApartmentValue] = useState("");
-  const [isOfficeValue, setIsOfficeValue] = useState<boolean>();
+  const [officeORApartmentValue, setOfficeORApartmentValue] =
+    useState<string>("");
+  const [isOfficeValue, setIsOfficeValue] = useState<boolean>(false);
   const [addressValue, setAddressValue] = useState<string>("");
   const [ortsValue, setOrtsValue] = useState<string>("");
-  const [floorValue, setFloorValue] = useState<string>();
-  const [houseNumberValue, setHouseNumberValue] = useState<string>();
-  const [additionalInfo, setAdditionalInfo] = useState<string>();
-  const [additionalPhoneValue, setAdditionalPhoneValue] = useState<string>();
-  const [phoneValue, setPhoneValue] = useState<string>();
-  const [orderData, setOrderData] = useState<DataType>([]);
-  const [addressArray, setAddressArray] = useState<Array<string>>();
+  const [floorValue, setFloorValue] = useState<string>("");
+  const [houseNumberValue, setHouseNumberValue] = useState<string>("");
+  const [additionalInfo, setAdditionalInfo] = useState<string>("");
+  const [additionalPhoneValue, setAdditionalPhoneValue] = useState<string>("");
+  const [phoneValue, setPhoneValue] = useState<string>("");
+  const [addressArray, setAddressArray] = useState<Array<string>>([]);
+  const [open, setOpen] = useState(false);
+  const [storedItems, setStoredItems] = useState([]);
+  const { user } = useUser();
   const onOfficeORApartmentClick = (value: SetStateAction<string>) => {
     setOfficeORApartmentValue(value);
     if (value === "Оффис") {
@@ -75,6 +89,7 @@ export default function OrderAddressPage() {
           additionalPhoneValue,
       ]);
     }
+    console.log(addressArray);
   };
   const HandleAddressValue = (e: { target: { value: string } }) => {
     setAddressValue(e.target.value);
@@ -110,6 +125,20 @@ export default function OrderAddressPage() {
       console.error("Error retrieving total price from cart:", error);
     }
     return 0;
+  };
+  const handleOrder = async () => {
+    const response = await fetch("/api/order/crudOrder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: "0ee1c2ff-5b31-4d82-8d3e-bb08b53db077",
+        totalPrice: 12,
+        orderAddress: "testAddress",
+        orderItems: [
+          { productId: "526a3d75-5960-4059-8b45-092f27e389a2", quantity: 1 },
+        ],
+      }),
+    });
   };
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -319,17 +348,42 @@ export default function OrderAddressPage() {
           </div>
         </div>
         <div className=" flex justify-between mt-[50px]">
-          <button className="flex w-[270px] bg-amber-950 rounded-sm h-[35px] text-white justify-center items-center">
+          <Link
+            href={"/cart"}
+            className="flex w-[270px] bg-amber-950 rounded-sm h-[35px] text-white justify-center items-center"
+          >
             <ChevronLeft />
             <span>Өмнөх алхам руу буцах</span>
-          </button>
-          <button
-            className="flex w-[270px] bg-red-600 rounded-sm h-[35px] text-white justify-center items-center"
-            onClick={ClickedDone}
-          >
-            <span>Захиалга баталгаажуулах</span>
-            <ChevronRight />
-          </button>
+          </Link>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger onClick={ClickedDone}>
+              <div className="flex w-[270px] bg-red-600 rounded-sm h-[35px] text-white justify-center items-center hover:cursor-pointer">
+                <span>Захиалга баталгаажуулах</span>
+                <ChevronRight />
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader className="h-[100px] flex gap-[20px] justify-center">
+                <DialogTitle className="flex justify-center">
+                  Are you absolutely sure?
+                </DialogTitle>
+                <DialogDescription className="flex justify-around">
+                  <button
+                    className="flex w-[100px] bg-neutral-200  rounded-sm h-[35px] text-black justify-center items-center hover:cursor-pointer"
+                    onClick={handleOrder}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="flex w-[100px] bg-red-600   rounded-sm h-[35px] text-white justify-center items-center hover:cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  >
+                    Wait
+                  </button>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
