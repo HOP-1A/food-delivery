@@ -19,7 +19,7 @@ type UserType = {
   lastname: string;
 };
 const Page = () => {
-  const [data, setData] = useState<Array<DataType>>();
+  const [data, setData] = useState<DataType[]>([]);
   const Fetch = async () => {
     const JSONdata = await fetch("../api/order/crudOrder", {
       method: "GET",
@@ -33,19 +33,15 @@ const Page = () => {
     Fetch();
   }, []);
 
-  const filteredTransit = data?.filter(
-    (order) => order.currentState === "In Transit"
-  );
-  // const filteredPending = data?.filter(
-  //   (order) => order.currentState === "Pending"
+  // const filteredTransit = data?.filter(
+  //   (order) => order.currentState === "In Transit"
   // );
-
-  const filteredCancelled = data?.filter(
-    (order) => order.currentState === "Cancelled"
-  );
-  const filteredDelivered = data?.filter(
-    (order) => order.currentState === "Delivered"
-  );
+  // const filteredCancelled = data?.filter(
+  //   (order) => order.currentState === "Cancelled"
+  // );
+  // const filteredDelivered = data?.filter(
+  //   (order) => order.currentState === "Delivered"
+  // );
 
   return (
     <div className="bg-white h-screen items-center mt-10 flex flex-col gap-8">
@@ -59,28 +55,28 @@ const Page = () => {
       <div className="flex gap-9">
         <div className="border-1 border-grey h-[120px] w-[300px] rounded-[8px] flex flex-col justify-center gap-2 pl-6 font-bold">
           <div>Total Deliveries</div>
-          <div className="text-[25px]">{data?.length}</div>
+          {/* <div className="text-[25px]">{data?.length}</div> */}
           <div className="font-[500] text-gray-400 text-[12px]">
             +2.5% from the last month
           </div>
         </div>
         <div className="border-1 border-grey h-[120px] w-[300px] rounded-[8px] flex flex-col justify-center gap-2 pl-6 font-bold">
           <div>In Transit</div>
-          <div className="text-[25px]">{filteredTransit?.length}</div>
+          {/* <div className="text-[25px]">{filteredTransit?.length}</div> */}
           <div className="font-[500] text-gray-400 text-[12px]">
             Currently on the road
           </div>
         </div>
         <div className="border-1 border-grey h-[120px] w-[300px] rounded-[8px] flex flex-col justify-center gap-2 pl-6 font-bold">
           <div>Delivered</div>
-          <div className="text-[25px]">{filteredDelivered?.length}</div>
+          {/* <div className="text-[25px]">{filteredDelivered?.length}</div> */}
           <div className="font-[500] text-gray-400 text-[12px]">
             Completed successfully
           </div>
         </div>
         <div className="border-1 border-grey h-[120px] w-[300px] rounded-[8px] flex flex-col justify-center gap-2 pl-6 font-bold">
           <div>Cancelled</div>
-          <div className="text-[25px]">{filteredCancelled?.length}</div>
+          {/* <div className="text-[25px]">{filteredCancelled?.length}</div> */}
           <div className="font-[500] text-gray-400 text-[12px]">
             Requires attention
           </div>
