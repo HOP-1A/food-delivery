@@ -44,3 +44,53 @@ export const POST = async (req: Request) => {
     );
   }
 };
+
+export const GET = async () => {
+  try {
+    const response = await prisma.order.findMany({
+      include: {
+        user: true,
+      },
+    });
+    console.log(response);
+    return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Failed to fetch =>${error}` },
+      { status: 500 }
+    );
+  }
+};
+export const DELETE = async (req: Request) => {
+  try {
+    const body = await req.json();
+    const response = await prisma.order.delete({
+      where: { id: body.id },
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Failed to fetch =>${error}` },
+      { status: 500 }
+    );
+  }
+};
+export const PUT = async (req: Request) => {
+  try {
+    const body = await req.json();
+    const response = await prisma.order.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        currentState: body.status,
+      },
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Failed to fetch => ${error}` },
+      { status: 500 }
+    );
+  }
+};

@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { CategoryComponent } from "./_components/HomePageCategoryComp";
 import ProductItemComp from "./_components/HomePageItemComp";
-import AdminTable from "./admin/dashboard/AdminTable";
-import OrderAddressPage from "./_components/OrderAddressPage";
 
 export type Category = {
   id: string;
@@ -64,8 +62,6 @@ const HomePage = () => {
           </div>
         )}
       </div>
-      <AdminTable></AdminTable>
-      <OrderAddressPage />
     </div>
   );
 };
