@@ -6,13 +6,13 @@ export const PUT = async (req: Request) => {
     const body = await req.json();
     const response = await prisma.users.update({
       where: {
-        phoneNumber: body.phoneNumber,
+        phoneNumber: body.phoneNumber.toSting(),
       },
       data: {
         orderAddress: body.orderAddress,
       },
     });
-    const response1 = await prisma.order.update({
+    await prisma.order.update({
       where: {
         id: body.orderId,
       },
@@ -21,7 +21,7 @@ export const PUT = async (req: Request) => {
       },
     });
     return NextResponse.json(response);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });
   }
 };

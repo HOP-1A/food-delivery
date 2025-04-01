@@ -12,7 +12,7 @@ import Link from "next/link";
 export default function HPItemComp({ productData }: { productData: Products }) {
   const saveToStorage = (data: Products) => {
     const cartItemsString = localStorage.getItem("cart");
-    let cartItems: { count: number; data: Products }[] = cartItemsString
+    const cartItems: { count: number; data: Products }[] = cartItemsString
       ? JSON.parse(cartItemsString)
       : [];
 

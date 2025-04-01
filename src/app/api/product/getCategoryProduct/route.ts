@@ -8,7 +8,7 @@ export const POST = async (req: Request) => {
       where: { category: body.category },
     });
     return NextResponse.json(response);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });
   }
 };

@@ -7,7 +7,7 @@ CREATE TABLE "Users" (
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "orderAddress" TEXT NOT NULL,
-    "phoneNumber" INTEGER NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,

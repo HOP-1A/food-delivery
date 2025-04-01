@@ -34,7 +34,7 @@ export const SetCartButton = ({ data }: { data: dataType }) => {
     <div>
       {" "}
       <button
-        onClick={(e) => updateCartInStorage}
+        onClick={() => updateCartInStorage}
         className="bg-green-500 text-white p-2 rounded-md"
       >
         Сагсанд нэмэх

@@ -35,6 +35,7 @@ export const AddProduct = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isAdded, setIsAdded] = useState<boolean>(false);
 
   const uploadImages = async () => {

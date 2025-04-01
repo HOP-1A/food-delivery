@@ -7,10 +7,10 @@ export default clerkMiddleware(async (auth, req) => {
   // Protect all routes starting with `/admin`
   if (
     isAdminRoute(req) &&
-    (await auth()).sessionClaims?.metadata?.role !== "admin"
+    ((await auth()).sessionClaims?.metadata as { role?: string })?.role !== 'admin'
   ) {
-    const url = new URL("/", req.url);
-    return NextResponse.redirect(url);
+    const url = new URL('/', req.url)
+    return NextResponse.redirect(url)
   }
 });
 

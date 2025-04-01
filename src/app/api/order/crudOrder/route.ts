@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-    const { userId, orderItems, orderAddress, totalPrice } = body;
+    const { userId, orderItems, orderAddress } = body;
 
     const orderId = nanoid();
 

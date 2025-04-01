@@ -2,9 +2,7 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -16,9 +14,9 @@ type DataType = {
   user: UserType;
   orderAddress: string;
   currentState: string;
-  usersId: String;
-  updatedAt: String;
-  createdAt: String;
+  usersId: string;
+  updatedAt: string;
+  createdAt: string;
 };
 type UserType = {
   id: string;
@@ -46,7 +44,7 @@ export default function AdminTable() {
           orderItems: orderItems,
         }),
       });
-      const data = await response.json();
+      await response.json();
     } catch (error) {
       console.error("Error updating delivery status:", error);
     }
@@ -59,11 +57,11 @@ export default function AdminTable() {
     updateDeliveryStatus(id, status, orderItems);
   };
   const FetchData = async () => {
-    const JSONdata = await fetch("api/order/crudOrder", {
+    await fetch("api/order/crudOrder", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
-    const data = await JSONdata.json();
+
     const mockData = [
       {
         usersId: "1",
