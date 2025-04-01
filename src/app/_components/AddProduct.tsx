@@ -37,36 +37,43 @@ export const AddProduct = () => {
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [uploading, setUploading] = useState(false);
 
   const uploadImages = async () => {
     if (!images) return;
 
-    const uploadPromises = Array.from(images).map(async (image) => {
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("upload_preset", "ace_area");
-      formData.append("cloud_name", "dl93ggn7x");
+    setUploading(true);
 
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dl93ggn7x/image/upload",
-        {
-          method: "POST",
-          body: formData,
+    try {
+      const uploadPromises = Array.from(images).map(async (image) => {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "ace_area");
+        formData.append("cloud_name", "dl93ggn7x");
+
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dl93ggn7x/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
         }
-      );
-      console.log(response);
 
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
+        const result = await response.json();
+        return result.secure_url;
+      });
 
-      const result = await response.json();
-      return result.secure_url;
-    });
-
-    const uploadedUrls = await Promise.all(uploadPromises);
-
-    setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
+      const uploadedUrls = await Promise.all(uploadPromises);
+      setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const getCategories = async () => {
@@ -95,9 +102,9 @@ export const AddProduct = () => {
       }),
     });
     if (!response) {
-      setIsAdded(false);
+      alert("Failed");
     } else {
-      setIsAdded(true);
+      alert("Амжилттай нэмэгдлээ");
     }
   };
 
@@ -129,7 +136,7 @@ export const AddProduct = () => {
           </div>
 
           <Button onClick={uploadImages} className="hover:cursor-pointer">
-            Upload
+            {uploading ? "Uploading" : "Upload"}
           </Button>
 
           <div className="text-center w-90%">
@@ -189,7 +196,11 @@ export const AddProduct = () => {
           </Select>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleAddProduct}>
+          <Button
+            type="submit"
+            onClick={handleAddProduct}
+            className="hover:cursor-pointer"
+          >
             Submit
           </Button>
         </DialogFooter>
