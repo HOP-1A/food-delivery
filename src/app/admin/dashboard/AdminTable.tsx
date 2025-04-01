@@ -45,8 +45,10 @@ export default function AdminTable() {
   const [newDestination, setNewDestination] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const StatusValues = ["Delivered", "Pending", "In Transit", "Cancelled"];
+  const [values, setValues] = useState("");
   const updateDeliveryStatus = async (id: string, status: string) => {
     try {
+      setValues(id + status);
       const response = await fetch("../api/order/crudOrder", {
         method: "PUT",
         headers: {
@@ -62,11 +64,8 @@ export default function AdminTable() {
       console.error("Error updating delivery status:", error);
     }
   };
-  const ChangeStatus = (
-    status: string,
-    id: string,
-    orderItems: Array<object>
-  ) => {
+  console.log(values);
+  const ChangeStatus = (status: string, id: string) => {
     updateDeliveryStatus(id, status);
   };
   const FetchData = async () => {
@@ -74,7 +73,7 @@ export default function AdminTable() {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
-
+    const res = await JSONdata.json();
     const mockData = [
       {
         usersId: "1",
@@ -117,13 +116,13 @@ export default function AdminTable() {
         orderItems: [{ id: 1 }],
       },
     ];
-    setData(mockData);
-    // if (data === undefined) {
-    //   setIsLoading(false);
-    // } else {
-    //   setIsLoading(false);
-    // }
-    // console.log(data);
+    setData(res);
+    if (res === undefined) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+    console.log(res);
   };
   useEffect(() => {
     FetchData();
@@ -168,9 +167,8 @@ export default function AdminTable() {
                 </TableCell>
                 <TableCell>
                   <select
-                    defaultValue={data.currentState}
                     onChange={(e: { target: { value: string } }) =>
-                      ChangeStatus(e.target.value, data.id, data.orderItems)
+                      ChangeStatus(e.target.value, data.id)
                     }
                   >
                     {StatusValues.map((value, index) => (

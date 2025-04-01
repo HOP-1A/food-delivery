@@ -52,7 +52,6 @@ export const GET = async () => {
         user: true,
       },
     });
-    console.log(response);
     return NextResponse.json(response);
   } catch (error) {
     return NextResponse.json(
