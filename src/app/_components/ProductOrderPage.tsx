@@ -6,8 +6,8 @@ type OrderProductDataType = {
   productDescription: string;
 };
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
 export default function OrderPage() {
   const router = useRouter();
   const MockData = {
@@ -20,8 +20,7 @@ export default function OrderPage() {
   };
   const [productData, setProductData] = useState<OrderProductDataType>();
   const [productCount, setProductCount] = useState(1);
-  const searchParams = useSearchParams();
-  const id = searchParams.get("productId");
+
   const FetchData = async () => {
     // const JSONData = await fetch(`www.HEREWILLBEADDRESS.com/${id}`);
     // const data = await JSONData.json();

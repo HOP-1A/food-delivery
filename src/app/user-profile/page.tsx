@@ -23,21 +23,21 @@ export default function Home() {
     setPhoneNumber(e.target.value);
   };
 
-  const uptadeUser = async () => {
-    const body = {
-      lastname,
-      firstname,
-      email,
-      phoneNumber,
-    };
-    await fetch("api/user/updateUser", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-  };
+  // const uptadeUser = async () => {
+  //   const body = {
+  //     lastname,
+  //     firstname,
+  //     email,
+  //     phoneNumber,
+  //   };
+  //   await fetch("api/user/updateUser", {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(body),
+  //   });
+  // };
 
   return (
     <div className="bg-[rgb(245,235,220)] h-screen justify-center flex items-center">

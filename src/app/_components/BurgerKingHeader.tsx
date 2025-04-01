@@ -1,8 +1,6 @@
 "use client";
 
 import { Menu, Pencil, ShoppingBag, Truck } from "lucide-react";
-
-import HomePageItemComp from "./HomePageItemComp";
 import { useRouter } from "next/navigation";
 
 import {
@@ -15,9 +13,7 @@ import {
 
 const Header = () => {
   const router = useRouter();
-  const HomePageItem = () => {
-    HomePageItemComp;
-  };
+
   return (
     <div className="w-screen flex  items-center px-4  bg-[rgb(245,235,220)] mb-15 drop-shadow-lg">
       <div className="flex gap-4 items-center mr-[610px]">
@@ -59,7 +55,6 @@ const Header = () => {
       </div>
       <div className="flex gap-4 items-center mt-2">
         <button
-          onChange={HomePageItem}
           onClick={() => router.push("/cart")}
           className="flex items-center gap-3 bg-red-700 text-white px-4 py-2 rounded-full text-base cursor-pointer"
         >

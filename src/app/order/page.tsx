@@ -27,9 +27,12 @@ export default function OrderAddressPage() {
       const storedCart = localStorage.getItem("cart");
       if (storedCart) {
         const cartItems = JSON.parse(storedCart);
-        return cartItems.reduce((total: number, item: any) => {
-          return total + item.count * item.data.price;
-        }, 0);
+        return cartItems.reduce(
+          (total: number, item: { count: number; data: { price: number } }) => {
+            return total + item.count * item.data.price;
+          },
+          0
+        );
       }
     } catch (error) {
       console.error("Error retrieving total price from cart:", error);
@@ -45,10 +48,13 @@ export default function OrderAddressPage() {
 
         const orderItems = cartItems.map(
           (cartItem: { data: { id: string }; count: number }) => {
-            productId: cartItem.data.id;
-            quantity: cartItem.count;
+            return {
+              productId: cartItem.data.id,
+              quantity: cartItem.count,
+            };
           }
         );
+
         const response = await fetch("/api/order/crudOrder", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

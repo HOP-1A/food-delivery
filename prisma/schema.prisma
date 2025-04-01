@@ -12,9 +12,10 @@ model Users {
   firstname    String
   lastname     String
   orderAddress String
-  phoneNumber  Int      @unique
+  phoneNumber  String   @unique
   email        String   @unique
   password     String
+  clerkId      String   @unique
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())
   orders       Order[]
