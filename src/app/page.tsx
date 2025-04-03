@@ -18,6 +18,9 @@ export type Products = {
   categoryId: string;
 };
 
+// https://food-delivery-turbold10-turbold10s-projects.vercel.app/
+// food-delivery-turbold10-turbold10s-projects.vercel.app
+
 const HomePage = () => {
   const [categories, setCategories] = useState<Category>([]);
 

@@ -315,7 +315,9 @@ export default function OrderAddressPage() {
             <span className="text-[17px] text-amber-950 font-extrabold">
               Нийт дүн
             </span>
-            <span className="font-extrabold">{totalPrice + 3500}₮</span>
+            <span className="font-extrabold text-amber-950">
+              {totalPrice + 3500} ₮
+            </span>
           </div>
         </div>
         <div className=" flex justify-between mt-[50px]">
