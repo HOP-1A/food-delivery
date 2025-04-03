@@ -12,7 +12,7 @@ model Users {
   firstname    String
   lastname     String
   orderAddress String
-  phoneNumber  String   @unique
+  phoneNumber  String
   email        String   @unique
   password     String
   clerkId      String   @unique

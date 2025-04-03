@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
+import { Toaster, toast } from "sonner";
 
 export default function OrderAddressPage() {
   const [addressValue, setAddressValue] = useState<string>("");
@@ -66,12 +67,14 @@ export default function OrderAddressPage() {
           }),
         });
         if (response.ok) {
-          alert("success");
+          toast("✅ Order succesfully completed `Cart is now empty`");
+          setOpen(false);
         }
       } else {
-        alert("cart is empty");
+        toast("❌ Cart is empty");
       }
     } catch (error) {
+      setOpen(false);
       console.log({ message: error });
     }
   };
@@ -168,6 +171,7 @@ export default function OrderAddressPage() {
           </Dialog>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
