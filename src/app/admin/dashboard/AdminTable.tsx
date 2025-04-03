@@ -26,12 +26,8 @@ type UserType = {
 
 export default function AdminTable() {
   const [Data, setData] = useState<Array<DataType>>();
-  const StatusValues = ["Delivered", "Pending", "In Transit", "Cancelled"];
-  const updateDeliveryStatus = async (
-    id: string,
-    status: string,
-    orderItems: Array<object>
-  ) => {
+  const StatusValues = ["DELIVERED", "PENDING", "CANCELLED", "INTRANSIT"];
+  const updateDeliveryStatus = async (id: string, status: string) => {
     try {
       const response = await fetch("../api/order/crudOrder", {
         method: "PUT",
@@ -41,7 +37,6 @@ export default function AdminTable() {
         body: JSON.stringify({
           id: id,
           currentState: status,
-          orderItems: orderItems,
         }),
       });
       await response.json();
@@ -49,63 +44,20 @@ export default function AdminTable() {
       console.error("Error updating delivery status:", error);
     }
   };
-  const ChangeStatus = (
-    status: string,
-    id: string,
-    orderItems: Array<object>
-  ) => {
-    updateDeliveryStatus(id, status, orderItems);
+  const ChangeStatus = async (status: string, id: string) => {
+    setData((prevData) =>
+      prevData?.map((order) =>
+        order.id === id ? { ...order, currentState: status } : order
+      )
+    );
+    await updateDeliveryStatus(id, status);
   };
-  const FetchData = async () => {
-    await fetch("api/order/crudOrder", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
 
-    const mockData = [
-      {
-        usersId: "1",
-        id: "1",
-        user: { id: "1", firstname: "John", lastname: "Doe" },
-        orderAddress: "123 Elm Street, Apartment 5B, Springfield",
-        createdAt: "2025-03-18T12:30:00",
-        updatedAt: "2025-03-18T12:30:00",
-        currentState: "Delivered",
-        orderItems: [{ id: 1 }],
-      },
-      {
-        usersId: "1",
-        id: "2",
-        user: { id: "1", firstname: "John", lastname: "Doe" },
-        orderAddress: "123 Elm Street, Apartment 5B, Springfield",
-        createdAt: "2025-03-18T12:30:00",
-        updatedAt: "2025-03-18T12:30:00",
-        currentState: "Pending",
-        orderItems: [{ id: 1 }],
-      },
-      {
-        usersId: "1",
-        id: "3",
-        user: { id: "1", firstname: "John", lastname: "Doe" },
-        orderAddress: "123 Elm Street, Apartment 5B, Springfield",
-        createdAt: "2025-03-18T12:30:00",
-        updatedAt: "2025-03-18T12:30:00",
-        currentState: "Delivered",
-        orderItems: [{ id: 1 }],
-      },
-      {
-        usersId: "1",
-        id: "4",
-        user: { id: "1", firstname: "John", lastname: "Doe" },
-        orderAddress: "123 Elm Street, Apartment 5B, Springfield",
-        createdAt: "2025-03-18T12:30:00",
-        updatedAt: "2025-03-18T12:30:00",
-        currentState: "Delivered",
-        orderItems: [{ id: 1 }],
-      },
-    ];
-    setData(mockData);
-    console.log(Data);
+  const FetchData = async () => {
+    const response = await fetch("../api/order/crudOrder");
+    const data = await response.json();
+
+    setData(data);
   };
   useEffect(() => {
     FetchData();
@@ -133,16 +85,17 @@ export default function AdminTable() {
               </TableCell>
               <TableCell>
                 <select
-                  defaultValue={data.currentState}
-                  onChange={(e: { target: { value: string } }) =>
-                    ChangeStatus(e.target.value, data.id, data.orderItems)
-                  }
+                  value={data.currentState}
+                  onChange={(e) => ChangeStatus(e.target.value, data.id)}
                 >
                   {StatusValues.map((value, index) => (
-                    <option key={index}>{value}</option>
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
                   ))}
                 </select>
               </TableCell>
+
               <TableCell>{data.orderAddress}</TableCell>
               <TableCell>{data.orderItems.length}</TableCell>
               <TableCell>{data.createdAt}</TableCell>
