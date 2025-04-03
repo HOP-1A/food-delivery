@@ -47,6 +47,7 @@ enum OrderState {
   PENDING
   DELIVERED
   CANCELLED
+  INTRANSIT
 }
 
 model Order {

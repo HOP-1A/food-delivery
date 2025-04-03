@@ -2,6 +2,37 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 
+export const GET = async () => {
+  try {
+    const response = await prisma.order.findMany({
+      include: {
+        user: true,
+        orderItems: true,
+      },
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json({ message: error });
+  }
+};
+
+export const PUT = async (req: Request) => {
+  try {
+    const body = await req.json();
+    const response = await prisma.order.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        currentState: body.currentState,
+      },
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json({ message: error });
+  }
+};
+
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
