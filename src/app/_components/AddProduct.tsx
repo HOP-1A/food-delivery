@@ -101,7 +101,7 @@ export const AddProduct = () => {
         categoryId: selectedCategoryId,
       }),
     });
-    if (!response) {
+    if (response === null) {
       alert("Failed");
     } else {
       alert("Амжилттай нэмэгдлээ");

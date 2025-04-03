@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { ShoppingBag } from "lucide-react";
 import { Products } from "../page";
-import Link from "next/link";
+import { Toaster, toast } from "sonner";
 
 export default function HPItemComp({ productData }: { productData: Products }) {
   const saveToStorage = (data: Products) => {
@@ -48,13 +48,16 @@ export default function HPItemComp({ productData }: { productData: Products }) {
         onClick={() => saveToStorage(productData)}
         className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:cursor-pointer"
       >
-        <Link
-          href={"/cart"}
+        <div
           className="duration-200 w-2/3 border-[1px] bg-green-600 flex items-center p-[10px] justify-center rounded-md gap-2.5 hover:bg-[#502314]  text-white"
+          onClick={() => {
+            toast("✅ Product added to cart");
+          }}
         >
           <ShoppingBag className="w-5" />
           <span className="text-sm text-white">Сагсанд хийх</span>
-        </Link>
+        </div>
+        <Toaster />
       </button>
     </Card>
   );
