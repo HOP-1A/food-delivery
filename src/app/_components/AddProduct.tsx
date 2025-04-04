@@ -105,6 +105,7 @@ export const AddProduct = () => {
       alert("Failed");
     } else {
       alert("Амжилттай нэмэгдлээ");
+      window.location.reload();
     }
   };
 
