@@ -34,17 +34,17 @@ const Page = () => {
   }, []);
 
   const filteredTransit = data?.filter(
-    (order) => order.currentState === "In Transit"
+    (order) => order.currentState === "INTRANSIT"
   );
-  // const filteredPending = data?.filter(
-  //   (order) => order.currentState === "Pending"
-  // );
+  const filteredPending = data?.filter(
+    (order) => order.currentState === "PENDING"
+  );
 
   const filteredCancelled = data?.filter(
-    (order) => order.currentState === "Cancelled"
+    (order) => order.currentState === "CANCELLED"
   );
   const filteredDelivered = data?.filter(
-    (order) => order.currentState === "Delivered"
+    (order) => order.currentState === "DELIVERED"
   );
 
   return (
