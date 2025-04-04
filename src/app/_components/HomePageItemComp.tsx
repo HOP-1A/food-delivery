@@ -28,7 +28,7 @@ export default function HPItemComp({ productData }: { productData: Products }) {
   };
 
   return (
-    <Card className="w-2/6 pr-1/12 pl-1/12 pb-1/12 pt-1/12 flex justify-centerr bg-amber-50 group relative overflow-hidden">
+    <Card className="w-[30%] pr-1/12 pb-1/12 pt-1/12 flex justify-centerr bg-amber-50 group relative overflow-hidden">
       <CardContent className="flex justify-center w-full relative">
         <img
           className="w-full transition-opacity duration-300 group-hover:opacity-30"
