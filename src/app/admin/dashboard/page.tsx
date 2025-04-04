@@ -36,10 +36,6 @@ const Page = () => {
   const filteredTransit = data?.filter(
     (order) => order.currentState === "INTRANSIT"
   );
-  const filteredPending = data?.filter(
-    (order) => order.currentState === "PENDING"
-  );
-
   const filteredCancelled = data?.filter(
     (order) => order.currentState === "CANCELLED"
   );
